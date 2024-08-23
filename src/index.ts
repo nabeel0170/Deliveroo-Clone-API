@@ -1,23 +1,23 @@
-// Import the 'express' module along with 'Request' and 'Response' types from express
-import express, { Request, Response } from "express";
+import express from "express";
+import restaurantRoutes from "./routes/restaurantRoutes";
+import { authroizeRequest } from "./middleware/auth";
+import cors from "cors";
 
-// Create an Express application
 const app = express();
+const port = 8000;
 
-// Specify the port number for the server
-const port = 8000; // TypeScript infers the type as number
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Allow requests from this origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    allowedHeaders: ["Content-Type", "Authorization", "api-key"], // Allowed headers
+  }),
+);
+// Use middleware
+app.use(authroizeRequest); // Apply middleware to all routes
+// Use routes
+app.use("/api", restaurantRoutes); // Prefix routes with /api
 
-// Define a route for the root path ('/')
-app.get("/", (req: Request, res: Response) => {
-  // Send a response to the client
-  res.send("Hello, TypeScript + Node.js + Express!");
-});
-
-// Start the server and listen on the specified port
 app.listen(port, () => {
-  // Log a message when the server is successfully running
   console.log(`Server is running on http://localhost:${port}`);
 });
-//testsss
-// sss
-// ssss
