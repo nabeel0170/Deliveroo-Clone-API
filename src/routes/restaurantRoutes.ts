@@ -1,9 +1,14 @@
 import { Router } from "express";
-import { getRestaurantDetails } from "../controllers/restaurantController";
+import {
+  getCategories,
+  getitems,
+  getRestaurantDetails,
+} from "../controllers/restaurantController";
 
 const router = Router();
 
-// Define route for /data
 router.get("/restaurantDetails", getRestaurantDetails);
+router.get("/itemCategories", getCategories);
+router.post("/items", getitems);
 
 export default router;

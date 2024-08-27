@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { getRestaurantDetailsService } from "../services/restaurantService";
 
-// Controller function to handle /data requests
 export const getRestaurantDetails = async (req: Request, res: Response) => {
   if (req) {
     try {
@@ -15,4 +14,10 @@ export const getRestaurantDetails = async (req: Request, res: Response) => {
       });
     }
   }
+};
+export const getCategories = async (req: Request, res: Response) => {
+  return res.status(200).json({ message: "categories" });
+};
+export const getitems = async (req: Request, res: Response) => {
+  return res.status(200).json({ message: "items" });
 };

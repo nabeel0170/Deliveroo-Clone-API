@@ -1,5 +1,6 @@
 import express from "express";
 import restaurantRoutes from "./routes/restaurantRoutes";
+import userRoutes from "./routes/userRoutes";
 import { authroizeRequest } from "./middleware/auth";
 import cors from "cors";
 
@@ -8,15 +9,17 @@ const port = 8000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow requests from this origin
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
-    allowedHeaders: ["Content-Type", "Authorization", "api-key"], // Allowed headers
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "api-key"],
   }),
 );
-// Use middleware
-app.use(authroizeRequest); // Apply middleware to all routes
-// Use routes
-app.use("/api", restaurantRoutes); // Prefix routes with /api
+
+app.use(authroizeRequest);
+app.use(express.json());
+
+app.use("/api/restaurant", restaurantRoutes);
+app.use("/api/user", userRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
