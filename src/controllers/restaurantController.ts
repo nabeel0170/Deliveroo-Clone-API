@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
-import { getRestaurantDetailsService } from "../services/restaurantService";
+import {
+  getCategoriesList,
+  getRestaurantDetailsService,
+} from "../services/restaurantService";
 
 export const getRestaurantDetails = async (req: Request, res: Response) => {
   if (req) {
@@ -16,7 +19,12 @@ export const getRestaurantDetails = async (req: Request, res: Response) => {
   }
 };
 export const getCategories = async (req: Request, res: Response) => {
-  return res.status(200).json({ message: "categories" });
+  try {
+    const result = await getCategoriesList();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 };
 export const getitems = async (req: Request, res: Response) => {
   return res.status(200).json({ message: "items" });

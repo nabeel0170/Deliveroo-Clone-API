@@ -7,7 +7,6 @@ export const authroizeRequest = (
   res: Response,
   next: NextFunction,
 ) => {
-  console.log(APIKEY);
   const apiKey = req.headers["api-key"] as string;
   if (apiKey && apiKey === APIKEY) {
     next();

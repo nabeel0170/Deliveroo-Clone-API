@@ -6,6 +6,7 @@ import restaurantRoutes from "./routes/restaurantRoutes";
 import userRoutes from "./routes/userRoutes";
 import { authroizeRequest } from "./middleware/auth";
 import cors from "cors";
+import { connectToDatabase } from "./database/dbConnection";
 
 const app = express();
 const port = 8000;
@@ -27,3 +28,4 @@ app.use("/api/user", userRoutes);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+connectToDatabase();

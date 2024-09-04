@@ -9,6 +9,6 @@ const router = Router();
 
 router.post("/verifyEmail", verifyEmail);
 router.post("/loginUser", loginUser);
-router.post("/signUpUser", signUpUser);
+router.post("/registerUser", signUpUser);
 
 export default router;
