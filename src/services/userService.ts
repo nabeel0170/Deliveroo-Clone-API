@@ -1,12 +1,12 @@
-import { userModel } from "../models/userModel";
+import { TokenObject, userModel } from '../models/userModel';
 
 export const emailAndPassword: { email: string; password: string }[] = [
-  { email: "john.doe@example.com", password: "password123" },
-  { email: "jane.smith@example.com", password: "securePass456" },
-  { email: "alice.johnson@example.com", password: "aliceSecure789" },
-  { email: "bob.brown@example.com", password: "bobPassword101" },
-  { email: "omarr@gmail.com", password: "charlieSecure202" },
-  { email: "hii@salt.com", password: "okayPassword303" },
+  { email: 'john.doe@example.com', password: 'password123' },
+  { email: 'jane.smith@example.com', password: 'securePass456' },
+  { email: 'alice.johnson@example.com', password: 'aliceSecure789' },
+  { email: 'bob.brown@example.com', password: 'bobPassword101' },
+  { email: 'omarr@gmail.com', password: 'charlieSecure202' },
+  { email: 'hii@salt.com', password: 'okayPassword303' },
 ];
 
 export const verifyUserEmail = async (email: string) => {
@@ -25,6 +25,7 @@ export const verifyUserEmail = async (email: string) => {
     return result;
   }
 };
+
 export const verifyLogin = async (
   email: string,
   password: string,
@@ -37,7 +38,7 @@ export const verifyLogin = async (
       return response;
     }
   } catch (error) {
-    console.error("Error in loginUser service:", error);
+    console.error('Error in loginUser service:', error);
     return false;
   }
 };
@@ -64,5 +65,15 @@ export const signUpUserToDB = async (
     }
   } catch {
     return false;
+  }
+};
+
+export const saveUserResetPasswordToken = async (tokenObj: TokenObject) => {
+  try {
+    const response = await userModel.saveResetPasswordTokenToDb(tokenObj);
+    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
   }
 };

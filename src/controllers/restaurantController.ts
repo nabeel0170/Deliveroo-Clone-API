@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {
+  generatePopularFoodItems,
   getCategoriesList,
   getRestaurantDetailsService,
-} from "../services/restaurantService";
+} from '../services/restaurantService';
 
 export const getRestaurantDetails = async (req: Request, res: Response) => {
   if (req) {
@@ -12,7 +13,7 @@ export const getRestaurantDetails = async (req: Request, res: Response) => {
       res.status(200).json(data);
     } catch (error) {
       res.status(500).json({
-        message: "Cannot fetch data right now",
+        message: 'Cannot fetch data right now',
         error: (error as Error).message,
       });
     }
@@ -26,6 +27,13 @@ export const getCategories = async (req: Request, res: Response) => {
     return res.status(400).json(error);
   }
 };
+
 export const getitems = async (req: Request, res: Response) => {
-  return res.status(200).json({ message: "items" });
+  try {
+    const count = req.body.count;
+    const result = await generatePopularFoodItems(count);
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 };
