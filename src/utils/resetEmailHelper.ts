@@ -51,6 +51,6 @@ Your Company`,
       return false;
     }
   } catch (error) {
-    console.log(error, 'email not sent');
+    console.log(error);
   }
 };

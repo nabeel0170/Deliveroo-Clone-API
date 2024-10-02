@@ -1,14 +1,13 @@
 import CryptoJS from 'crypto-js';
 
-// Generate Salt
 export const generateSalt = (): string => {
-  return CryptoJS.lib.WordArray.random(128 / 8).toString(); // 16 bytes = 128 bits
+  return CryptoJS.lib.WordArray.random(128 / 8).toString();
 };
 
 export const hashPassword = (password: string, salt: string): string => {
   return CryptoJS.PBKDF2(password, salt, {
-    keySize: 256 / 32, // Match this with backend
-    iterations: 1000, // Match this with backend
+    keySize: 256 / 32,
+    iterations: 1000,
   }).toString();
 };
 

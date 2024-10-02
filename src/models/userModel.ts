@@ -40,7 +40,6 @@ export interface TokenObject {
 }
 export const userModel = {
   saveUser: async (userData: userDatatype): Promise<boolean> => {
-    console.log('Received user data to sign up:', userData);
     try {
       const newUser = new userDataModel(userData);
       await newUser.save();
@@ -56,14 +55,12 @@ export const userModel = {
     try {
       const email = userData.email;
       const password = userData.password;
-      console.log('your password', password);
-      // Find the user by email
+
       const user = await userDataModel.findOne({ email });
       if (!user) {
         throw new Error('User not found');
       }
 
-      // Retrieve salt and hashed password from the database
       const salt = user.salt;
       const hashedPassword = user.password;
 
@@ -71,10 +68,8 @@ export const userModel = {
         throw new Error('Salt is missing for the user');
       }
 
-      // Hash the provided password with the retrieved salt
       const hashNewPassword = hashPassword(password, salt);
-      console.log('your new hashed password', hashNewPassword);
-      // Compare the newly hashed password with the stored hash
+
       const passwordMatch = comparePasswords(hashNewPassword, hashedPassword);
 
       if (passwordMatch === false) {
@@ -83,7 +78,6 @@ export const userModel = {
         };
       }
 
-      // Return user information on successful login
       const id = user._id.toString();
 
       const name = user.name;
@@ -97,7 +91,6 @@ export const userModel = {
       };
     } catch (error) {
       console.error('Error during login:', error);
-      throw error;
     }
   },
   saveResetPasswordTokenToDb: async (tokenObj: TokenObject) => {

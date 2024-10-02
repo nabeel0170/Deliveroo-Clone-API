@@ -58,6 +58,7 @@ export const getRestaurantDetailsService = async (): Promise<
     return { error: 'Cannot generate data right now' };
   }
 };
+
 export const getCategoriesList = (): category[] => {
   try {
     return categoriesData;
