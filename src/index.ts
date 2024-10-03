@@ -7,9 +7,12 @@ import userRoutes from './routes/userRoutes';
 import { authroizeRequest } from './middleware/auth';
 import cors from 'cors';
 import { connectToDatabase } from './database/dbConnection';
+import { setupSwagger } from './swagger/swagger';
 
 const app = express();
 const port = 8000;
+
+setupSwagger(app);
 
 app.use(
   cors({

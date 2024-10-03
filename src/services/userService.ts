@@ -34,12 +34,12 @@ export const verifyLogin = async (
   const userData = { email, password, salt };
   try {
     const response = await userModel.loginUser(userData);
+    console.log('0', response);
     if (response) {
       return response;
     }
   } catch (error) {
     console.error('Error in loginUser service:', error);
-    return false;
   }
 };
 
@@ -47,10 +47,9 @@ export const signUpUserToDB = async (
   email: string,
   name: string,
   contactNumber: string,
-  newPassword: string,
+  password: string,
   salt: string,
 ) => {
-  const password = newPassword;
   const userData = {
     name,
     email,
@@ -61,10 +60,10 @@ export const signUpUserToDB = async (
   try {
     const response: boolean = await userModel.saveUser(userData);
     if (response) {
-      return true;
+      return response;
     }
-  } catch {
-    return false;
+  } catch (error) {
+    return error;
   }
 };
 

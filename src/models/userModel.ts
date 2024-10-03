@@ -40,7 +40,12 @@ export interface TokenObject {
 }
 export const userModel = {
   saveUser: async (userData: userDatatype): Promise<boolean> => {
+    const email: string = userData.email;
     try {
+      const isEmailAvailable = await userDataModel.findOne({ email });
+      if (isEmailAvailable) {
+        return false;
+      }
       const newUser = new userDataModel(userData);
       await newUser.save();
       console.log('User saved successfully.');
@@ -75,6 +80,7 @@ export const userModel = {
       if (passwordMatch === false) {
         return {
           success: false,
+          message: 'Invalid Credentials',
         };
       }
 
@@ -91,6 +97,7 @@ export const userModel = {
       };
     } catch (error) {
       console.error('Error during login:', error);
+      return false;
     }
   },
   saveResetPasswordTokenToDb: async (tokenObj: TokenObject) => {

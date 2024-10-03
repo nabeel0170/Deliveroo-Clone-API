@@ -16,6 +16,9 @@ export const verifyEmail = async (req: Request, res: Response) => {
     }
     try {
       const result = await verifyUserEmail(email);
+      if (result.success === false) {
+        return res.status(200).json({ result, message: 'User not found' });
+      }
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({
@@ -28,39 +31,51 @@ export const verifyEmail = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   const { email, encryptedPassword } = req.body;
+  const password: string = encryptedPassword;
   const secretEncryptionKey = 'your-secret-key';
   const decryptedPassword = CryptoJS.AES.decrypt(
-    encryptedPassword,
+    password,
     secretEncryptionKey,
   ).toString(CryptoJS.enc.Utf8);
 
   try {
     const result = await verifyLogin(email, decryptedPassword);
-    if (result) {
-      res.status(200).json(result);
+    if (result && result.success === false) {
+      console.log('1', result);
+      return res.status(200).json(result);
+      // If login is successful, send the response and return to stop further execution
     }
+    console.log('2', result);
+    return res.status(200).json(result);
   } catch (error) {
-    res.status(400).json(error);
+    console.log('3', error);
+    res
+      .status(500)
+      .json({ message: 'Server error', error: (error as Error).message });
   }
 };
 
 export const signUpUser = async (req: Request, res: Response) => {
-  const { email, NewPassword, name, contactNumber, salt } = req.body;
+  const { email, password, name, contactNumber, salt } = req.body;
   try {
     const response = await signUpUserToDB(
       email,
       name,
       contactNumber,
-      NewPassword,
+      password,
       salt,
     );
 
-    if (response) {
-      res.status(200).json({
-        message: 'Successful Signup',
-        success: true,
+    if (!response) {
+      return res.status(200).json({
+        message: 'Email already taken',
+        success: false,
       });
     }
+    res.status(200).json({
+      message: 'Successful Signup',
+      success: true,
+    });
   } catch (error) {
     res.status(400).json({ message: 'Server Error:', error });
   }

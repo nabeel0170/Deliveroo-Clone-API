@@ -19,6 +19,14 @@ interface category {
   id: number;
 }
 
+interface FoodItem {
+  image: string;
+  name: string;
+  calories: number;
+  price: number;
+  description: string;
+}
+
 const categoriesData: category[] = [
   { id: 1, name: 'Platters' },
   { id: 2, name: 'House Specials' },
@@ -69,7 +77,7 @@ export const getCategoriesList = (): category[] => {
 };
 
 export const generatePopularFoodItems = (count: number) => {
-  const foodItems = [];
+  const foodItems: FoodItem[] = [];
 
   for (let i = 0; i < count; i++) {
     foodItems.push({
