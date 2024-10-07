@@ -6,10 +6,10 @@ import {
   requestResetPassword,
   resetPassword,
 } from '../controllers/userController';
-import { validateDTO } from '../middleware/validateDTO';
-import { emailSchema, loginSchema, signUpSchema } from '../schema/userDto';
-import { combinedQueryAndPathSchema } from '../schema/combinedDTOs';
-import { validateCombinedSchema } from '../middleware/pathAndQueryParamsValidation';
+import { validateSchema } from '../middleware/reqBodyValidation';
+import { emailSchema, loginSchema, signUpSchema } from '../schema/userSchema';
+import { QuerySchema } from '../schema/PathAndQuerySchema';
+import { validateQueryParamSchema } from '../middleware/queryParamsValidation';
 
 const router = Router();
 
@@ -49,8 +49,8 @@ const router = Router();
  */
 router.post(
   '/verifyEmail',
-  validateCombinedSchema(combinedQueryAndPathSchema),
-  validateDTO(emailSchema),
+  validateQueryParamSchema(QuerySchema),
+  validateSchema(emailSchema),
   verifyEmail,
 );
 
@@ -100,7 +100,7 @@ router.post(
  *       500:
  *         description: Server error
  */
-router.post('/loginUser', validateDTO(loginSchema), loginUser);
+router.post('/loginUser', validateSchema(loginSchema), loginUser);
 
 /**
  * @swagger
@@ -157,7 +157,7 @@ router.post('/loginUser', validateDTO(loginSchema), loginUser);
  *                   type: string
  *                   example: "Server Error: [error details]"
  */
-router.post('/registerUser', validateDTO(signUpSchema), signUpUser);
+router.post('/registerUser', validateSchema(signUpSchema), signUpUser);
 
 /**
  * @swagger

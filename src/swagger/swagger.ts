@@ -12,25 +12,25 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:8000/', // Your API server URL
+        url: 'http://localhost:8000/',
       },
     ],
     security: [
       {
-        ApiKeyAuth: [], // Use the defined security scheme below
+        ApiKeyAuth: [],
       },
     ],
     components: {
       securitySchemes: {
         ApiKeyAuth: {
           type: 'apiKey',
-          in: 'header', // The API key will be sent in the header
-          name: 'api-key', // The name of the header
+          in: 'header',
+          name: 'api-key',
         },
       },
     },
   },
-  apis: ['./src/routes/userRoutes.ts', './src/routes/restaurantRoutes.ts'], // Path to your API routes
+  apis: ['./src/routes/userRoutes.ts', './src/routes/restaurantRoutes.ts'],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
